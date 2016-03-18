@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<!-- Name: Sarin Madarasmi
+	ID: 4626422 -->
+
+<html>
+	<head>
+		<title> My Slideshow </title>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<meta charset="UTF-8">
+		
+		<script> // type = text/javascript? 
+			
+			var numOfImages = 10;
+			var images = new Array( numOfImages );
+			var counter = 0;
+			var timerEvent;
+			
+			function init(){
+				for( var i = 0; i < numOfImages; i++ ){
+					images[ i ] = new Image();
+				}
+				images[ 0 ].src = "Datafiles/building_images/armory.jpg";
+				images[ 1 ].src = "Datafiles/building_images/pillsbury.jpg";
+				images[ 2 ].src = "Datafiles/building_images/folwell.jpg";
+				images[ 3 ].src = "Datafiles/building_images/jones.gif";
+				images[ 4 ].src = "Datafiles/building_images/statue.jpg";
+				images[ 5 ].src = "Datafiles/building_images/wesbrook.jpg";
+				images[ 6 ].src = "Datafiles/building_images/nicholson.jpg";
+				images[ 7 ].src = "Datafiles/building_images/eddy.jpg";
+				images[ 8 ].src = "Datafiles/building_images/music.jpg";
+				images[ 9 ].src = "Datafiles/building_images/wulling.jpg";
+				document.getElementById( "architect" ).style.visibility = 'hidden';
+				document.getElementById( "name" ).style.visibility = 'hidden';
+			}
+			
+			function nextImage(){
+				if( counter >= ( numOfImages - 1 ) ){
+					counter = 0;
+				}
+				document.bigImage.src = images[ counter ].src;
+				counter++;
+			}
+			
+			function startSlideShow(){
+				document.getElementById( "architect" ).style.visibility = 'visible';
+				document.getElementById( "name" ).style.visibility = 'visible';
+				document.getElementById( "startButton" ).disabled = true;
+				document.getElementById( "nextButton" ).disabled = true;
+				document.getElementById( "previousButton" ).disabled = true;
+				timerEvent = window.setInterval( "nextImage()", 1000 );
+			}
+		
+			function stopSlideShow(){
+				document.getElementById( "startButton" ).disabled = false;
+				document.getElementById( "nextButton" ).disabled = false;
+				document.getElementById( "previousButton" ).disabled = false;
+				window.clearInterval( timerEvent );
+			}
+		
+			function start(){
+				document.getElementById( "architect" ).style.visibility = 'visible';
+				document.getElementById( "name" ).style.visibility = 'visible';
+				var newNode = document.createElement("img");
+				newNode.id = "imgCover";
+				newNode.src = "Datafiles/building_images/armory.jpg";
+				newNode.alt = "Large Image";
+				newNode.className = "imgCover";
+				document.bigImage.src = images[ counter ].src;
+
+			}
+			
+			function next(){
+				if( counter == 9 ){
+					counter = 0;
+				}
+				else{
+					counter++;
+				}
+				document.bigImage.src = images[ counter ].src;
+			}
+			
+			function previous(){
+				if( counter == 0 ){
+					counter = 9;
+				}
+				else{
+					counter--;
+				}
+				document.bigImage.src = images[ counter ].src;
+			}
+
+		</script>
+	</head>
+	<body onload = "init()" >
+		<input id = "startButton" type = "button" value = "Start" onClick = "start()" >
+		<input id = "nextButton" type = "button" value = "Next" onClick = "next()" >
+		<input id = "previousButton" type = "button" value = "Previous" onClick = "previous()" > &emsp;
+		<label> Select Information Type:
+			<select name="informationType"> 
+				<option value="none"> None </option>
+				<option value="architect"> Architect </option>
+				<option value="year"> Year </option>
+				<option value="description"> Description </option>
+			</select> 
+		</label> 
+		<br/> <br/>
+		<div id = "thumbs" class = "thumbs">
+			<img src="Datafiles/building_images/armory.jpg" alt="Armory" height = "50" width = "50">
+			<img src="Datafiles/building_images/pillsbury.jpg" alt="Pillsbury" height = "50" width = "50">
+			<img src="Datafiles/building_images/folwell.jpg" alt="Folwell" height = "50" width = "50">
+			<img src="Datafiles/building_images/jones.gif" alt="Jones" height = "50" width = "50">
+			<img src="Datafiles/building_images/statue.jpg" alt="Statue" height = "50" width = "50">
+			<img src="Datafiles/building_images/wesbrook.jpg" alt="Wesbrook" height = "50" width = "50">
+			<img src="Datafiles/building_images/nicholson.jpg" alt="Nicholson" height = "50" width = "50">
+			<img src="Datafiles/building_images/eddy.jpg" alt="Eddy" height = "50" width = "50">
+			<img src="Datafiles/building_images/music.jpg" alt="Music" height = "50" width = "50">
+			<img src="Datafiles/building_images/wulling.jpg" alt="Wulling" height = "50" width = "50">
+		</div>
+		<br/>
+		<hr>
+		<input id = "startSlideShowButton" type = "button" value = "Start Slide Show" 
+			onClick = "startSlideShow()" >
+		<input id = "stopSlideShowButton" type = "button" value = "Stop Slide Show" 
+			onClick = "stopSlideShow()" >
+		<br/> <br/>
+		<label> 
+			Slow 
+			<input id = "slider" type = "range" min = "1" max = "10" step = "1" />
+			Fast
+		</label>
+		<br/> <br/>
+		<p style="float: left;"><img src = "" name = "bigImage" > </p>
+		<p id = "architect"> Text text </p>
+		<p id = "name"> Hello world </p>
+	</body>
+</html>

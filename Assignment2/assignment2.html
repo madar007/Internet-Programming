@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<!-- Name: Sarin Madarasmi
+	ID: 4626422 -->
+
+<html>
+	<head>
+		<title> My Slideshow </title>
+		<link rel="stylesheet" type="text/css" href="assignment2.css" />
+		<meta charset="UTF-8">
+		<script type="text/javascript"> // type = text/javascript? 
+			// Global variables
+			var numOfImages = 10;
+			var images = new Array( numOfImages - 1 );
+			var architect = new Array( numOfImages - 1 );
+			var year = new Array( numOfImages - 1 );
+			var description = new Array( numOfImages - 1 );
+			var counter = 0;
+			var timerEvent;
+			var speed = 5000;
+			var startShow = 0;
+			var interval; 
+			var fadeOutInterval;
+			var opacity = 0;
+			var outOpacity = 1;
+			var runImage;
+			var stopShow = 0;
+			var isShow = 0;
+			var timeout;
+			
+			// Initialze variables
+			function init(){
+				for( var i = 0; i < numOfImages; i++ ){
+					images[ i ] = new Image();
+					architect[ i ] = new String();
+					building[ i ] = new String();
+					year[ i ] = new String();
+					description[ i ] = new String();
+				}
+				images[ 0 ].src = "Datafiles/building_images/armory.jpg";
+				images[ 1 ].src = "Datafiles/building_images/pillsbury.jpg";
+				images[ 2 ].src = "Datafiles/building_images/folwell.jpg";
+				images[ 3 ].src = "Datafiles/building_images/jones.gif";
+				images[ 4 ].src = "Datafiles/building_images/statue.jpg";
+				images[ 5 ].src = "Datafiles/building_images/wesbrook.jpg";
+				images[ 6 ].src = "Datafiles/building_images/nicholson.jpg";
+				images[ 7 ].src = "Datafiles/building_images/eddy.jpg";
+				images[ 8 ].src = "Datafiles/building_images/music.jpg";
+				images[ 9 ].src = "Datafiles/building_images/wulling.jpg";
+				images[ 0 ].id = "armory";
+				images[ 1 ].id = "pillsbury";
+				images[ 2 ].id = "folwell";
+				images[ 3 ].id = "jones";
+				images[ 4 ].id = "statue";
+				images[ 5 ].id = "wesbrook";
+				images[ 6 ].id = "nicholson";
+				images[ 7 ].id = "eddy";
+				images[ 8 ].id = "music";
+				images[ 9 ].id = "wulling";
+				for( var i = 0; i < numOfImages; i++ ){
+					images[ i ].className = "bigImageAlign";
+				}
+				building[ 0 ].innerHTML = "Armory";
+				building[ 1 ].innerHTML = "Pillsbury Hall";
+				building[ 2 ].innerHTML = "Folwell Hall";
+				building[ 3 ].innerHTML = "Jones Hall";
+				building[ 4 ].innerHTML = "Pillsbury Statue";
+				building[ 5 ].innerHTML = "Wesbrook Hall";
+				building[ 6 ].innerHTML = "Nicholson Hall";
+				building[ 7 ].innerHTML = "Eddy Hall";
+				building[ 8 ].innerHTML = "Music Education";
+				building[ 9 ].innerHTML = "Wulling Hall";
+				architect[ 0 ].innerHTML = "Charles Aldrich";
+				architect[ 1 ].innerHTML = "Leroy Buffington <br /> with Harvey Ellis";
+				architect[ 2 ].innerHTML = "Clarence H. Johnston, Sr.";
+				architect[ 3 ].innerHTML = "Charles Aldrich";
+				architect[ 4 ].innerHTML = "Daniel C. French";
+				architect[ 5 ].innerHTML = "Frederick Corser";
+				architect[ 6 ].innerHTML = "Leroy Buffington <br /> with Harvey Ellis";
+				architect[ 7 ].innerHTML = "Leroy Buffington";
+				architect[ 8 ].innerHTML = "Warren H. Hayes";
+				architect[ 9 ].innerHTML = "Allen Stem and Charles Reed";
+				year[ 0 ].innerHTML = "1896";
+				year[ 1 ].innerHTML = "1889";
+				year[ 2 ].innerHTML = "1907";
+				year[ 3 ].innerHTML = "1901";
+				year[ 4 ].innerHTML = "1900";
+				year[ 5 ].innerHTML = "1898";
+				year[ 6 ].innerHTML = "1890";
+				year[ 7 ].innerHTML = "1886";
+				year[ 8 ].innerHTML = "1888";
+				year[ 9 ].innerHTML = "1892";
+				description[ 0 ].innerHTML = "Built for athletics and military drill, <br/>as well as performing arts and social <br/>activities. Memorial plaques at the <br/>front entrance honor students, <br/> faculty, and alumni who fought in the <br/>Spanish-American War.";
+				description[ 1 ].innerHTML = "Built as Science Hall. Named for <br/>Governor John S. Pillsbury.";
+				description[ 2 ].innerHTML = "When Old Main burned in 1904, <br/>Folwell Hall was built to house displaced<br/>departments. Named for William Watts <br/>Folwell, first president of the University,<br/> 1869-84.";
+				description[ 3 ].innerHTML = "Built as Physics Building. Named <br/>for Frederick S. Jones, professor of <br/> physics and dean of the College <br/>of Engineering.";
+				description[ 4 ].innerHTML = "Pillsbury statue located across <br/>the street from Burton Hall.";
+				description[ 5 ].innerHTML = "Built as Laboratory of Medical Science. <br/>In 1912, dentistry moved here. Named for <br/> Frank Wesbrook, professor of pathology and <br/>bacteriology and dean of the College of <br/>Medicine and Surgery. ";
+				description[ 6 ].innerHTML = "Built as chemical laboratory. In 1914, <br/>chemistry moved to the mall area and Nicholson was <br/> remodeled for the men's union until Coffman <br/>Memorial Union was built as a coed student union. <br/>Named for Edward E. Nicholson, professor of <br/>chemistry and later dean of Student Affairs.";
+				description[ 7 ].innerHTML = "Built as Mechanic Arts. It is the <br/>oldest existing building on campus. Named <br/>for Henry Turner Eddy, professor of <br/>engineering and mathematics and dean <br/>of the Graduate School.";
+				description[ 8 ].innerHTML = "Built as Student Christian Association <br/>building. Acquired by the University, it <br/>housed Child Welfare and Music Education.";
+				description[ 9 ].innerHTML = "Built as Medical Hall; named Millard <br/>Hall in 1906. Fire damaged the building. It <br/>later became the site for the pharmacy <br/>building. Named for Frederick J. Wulling, first <br/>dean and founder of the College of Pharmacy. ";
+				//document.getElementById( "architect" ).style.visibility = 'hidden';
+				document.getElementById( "building" ).style.visibility = 'hidden';
+				document.getElementById( "bigImage" ).style.visibility = 'hidden';
+				document.getElementById( "imageInfo" ).style.visibility = 'hidden';
+			}
+			
+			// call to nextImage for slideshow
+			function nextImage(){
+				console.log( 'next ');
+				if( counter > ( numOfImages - 1 ) ){
+					counter = 0;
+				}
+				display( counter, images[ counter ].id );
+				counter++;
+				
+			}
+			
+			// start slide show
+			function startSlideShow(){
+				document.getElementById( "information" ).style.visibility = 'visible';
+				document.getElementById( "bigImage" ).style.visibility = 'visible';
+				document.getElementById( "startButton" ).disabled = true;
+				document.getElementById( "nextButton" ).disabled = true;
+				document.getElementById( "previousButton" ).disabled = true;
+				speed = document.getElementById( "slider" ).value;
+				console.log( speed );
+				if( startShow == 0 ){
+					nextImage();
+					startShow = 1;
+					stopShow = 0;
+					isShow = 1;
+					opacity = 0;
+					outOpacity = 1;
+					timerEvent = window.setInterval( "nextImage()", speed*-1000 );
+				}
+				else{
+					window.alert("Slide Show is already started!");
+				}
+			}
+		
+			// stop slide show
+			function stopSlideShow(){
+				console.log('stop');
+				document.getElementById( "startButton" ).disabled = false;
+				document.getElementById( "nextButton" ).disabled = false;
+				document.getElementById( "previousButton" ).disabled = false;
+				startShow = 0;
+				window.clearInterval( timerEvent );
+				timerEvent = null;
+				window.clearInterval( fadeOutInterval );
+				fadeOutInterval = null;
+				window.clearTimeout( timeout );
+				timeout = null;
+				stopShow = 1;
+				isShow = 0;
+				var bigImage = document.getElementById( "bigImage" );
+				bigImage.style.opacity = 1;
+			}
+			
+			// start button
+			function start(){
+				displayClick( counter, images[ counter ].id );
+			}
+			
+			// next button
+			function next(){
+				if( counter == 9 ){
+					counter = 0;
+				}
+				else{
+					counter++;
+				}
+				displayClick( counter, images[ counter ].id );
+			}
+			
+			// previous button
+			function previous(){
+				if( counter == 0 ){
+					counter = 9;
+				}
+				else{
+					counter--;
+				}
+				displayClick( counter, images[ counter ].id );
+			}
+			
+			// display from click
+			function displayClick( imgIndex, thumbImage ){
+				console.log('here' + imgIndex);
+				if (interval){
+					return;
+				}
+				for( var x = 0; x < numOfImages; x++ ){
+					document.getElementById( "thumbs" ).children[ x ].style.borderStyle = "none";
+					document.getElementById( "thumbs" ).children[ x ].style.borderColor = "none";
+				}
+				document.getElementById( "thumbs" ).children[ imgIndex ].style.borderStyle = "solid";
+				document.getElementById( "thumbs" ).children[ imgIndex ].style.borderColor = "red";
+				
+				var newNode = document.createElement( "img" );
+				newNode.id = "bigImage";
+				newNode.alt = "Large Image";
+				newNode.src = images[ imgIndex ].src;
+				newNode.className = "bigImage";
+				var bigImage = document.getElementById( "bigImage" );
+				bigImage.parentNode.replaceChild( newNode, bigImage );
+				newNode.style.opacity = 1;
+				counter = imgIndex;
+				displayInfo();
+			}
+			
+			// display big image
+			function display( imgIndex, thumbImage ){
+				console.log('here' + imgIndex);
+				
+				for( var x = 0; x < numOfImages; x++ ){
+					document.getElementById( "thumbs" ).children[ x ].style.borderStyle = "none";
+					document.getElementById( "thumbs" ).children[ x ].style.borderColor = "none";
+				}
+				document.getElementById( "thumbs" ).children[ imgIndex ].style.borderStyle = "solid";
+				document.getElementById( "thumbs" ).children[ imgIndex ].style.borderColor = "red";
+						
+				var newNode = document.createElement( "img" );
+				newNode.id = "bigImage";
+				newNode.alt = "Large Image";
+				newNode.src = images[ imgIndex ].src;
+				newNode.className = "bigImage";
+				
+				var bigImage = document.getElementById( "bigImage" );
+				bigImage.parentNode.replaceChild( newNode, bigImage );
+				newNode.style.opacity = opacity;
+				counter = imgIndex;
+				interval = window.setInterval( "run()", 10 );
+				displayInfo();
+			}
+
+			// fade out image
+			function fadeOut() {
+				var bigImage = document.getElementById( "bigImage" );
+				if( stopShow == 1 ){
+					return;
+				}
+				if ( outOpacity < 0 ){
+					window.clearInterval( fadeOutInterval );
+					fadeOutInterval = null;
+					outOpacity = 1;
+					bigImage.style.opacity = 0;
+					window.clearInterval( timeout );
+					timeout = null;
+					
+				}
+				else{
+					bigImage.style.opacity = outOpacity;
+					outOpacity = outOpacity - 0.05;
+				}
+			}
+			
+			function fadeOutHelper() {
+				fadeOutInterval = window.setInterval( "fadeOut()", 10 );
+			}
+			
+			// fade in image
+			function run() {
+				
+				var bigImage = document.getElementById( "bigImage" );
+				if( stopShow == 1 ){
+					return;
+				}
+				if ( opacity > 1 ){
+					window.clearInterval( interval );
+					interval = null;
+					opacity = 0;
+					bigImage.style.opacity = 1;
+					if (isShow == 1 ){
+						timeout = window.setTimeout( "fadeOutHelper()", speed*-1000 - 500 );
+					}
+					
+				}
+				else{
+					bigImage.style.opacity = opacity;
+					opacity = opacity + 0.05;
+				}
+			}
+			
+			// display building information
+			function displayInfo(){
+				document.getElementById( "imageInfo" ).style.visibility = 'visible';
+				var infoType = document.getElementById("informationType").value;
+				var currentName = document.getElementById( "building" );
+				currentName.innerHTML = "Building: " + building[ counter ].innerHTML;
+				document.getElementById( "building" ).style.visibility = 'visible';
+				if( infoType == "architect" ){
+					var currentArchitect = document.getElementById( "information" );
+					currentArchitect.innerHTML = "Architect: " + architect[ counter ].innerHTML;
+					document.getElementById( "information" ).style.visibility = 'visible';
+				}
+				if( infoType == "year" ){
+					var currentYear = document.getElementById( "information" );
+					currentYear.innerHTML = "Year: " + year[ counter ].innerHTML;
+					document.getElementById( "information" ).style.visibility = 'visible';
+				}
+				if( infoType == "description" ){
+					var currentDescription = document.getElementById( "information" );
+					currentDescription.innerHTML = "Description: " + description[ counter ].innerHTML;
+					document.getElementById( "information" ).style.visibility = 'visible';
+				}
+				
+			}
+			
+			// speed was changed
+			function alterSpeed(){
+				speed = document.getElementById( "slider" ).value;
+			}
+
+		</script>
+	</head>
+	<body onload = "init()" >
+		<input id = "startButton" type = "button" value = "Start" onClick = "start()" >
+		<input id = "nextButton" type = "button" value = "Next" onClick = "next()" >
+		<input id = "previousButton" type = "button" value = "Previous" onClick = "previous()" > &emsp;
+		<label> Select Information Type:
+			<select name="informationType" id = "informationType" onSelect="displayInfo()"> 
+				<option value="none"> None </option>
+				<option value="architect"> Architect </option>
+				<option value="year"> Year </option>
+				<option value="description"> Description </option>
+			</select> 
+		</label> 
+		<br/> <br/>
+		<div id = "thumbs" class = "thumbs">
+			<img src="Datafiles/building_images/armory.jpg" alt="Armory" id = "armory" 				onClick="displayClick(0, 'armory')">
+			<img src="Datafiles/building_images/pillsbury.jpg" alt="Pillsbury" id = "pillsbury"
+				onClick="displayClick(1, 'pillsbury')">
+			<img src="Datafiles/building_images/folwell.jpg" alt="Folwell" id = "folwell"
+				onClick="displayClick(2, 'folwell')">
+			<img src="Datafiles/building_images/jones.gif" alt="Jones" id = "jones"
+				onClick="displayClick(3, 'jones')">
+			<img src="Datafiles/building_images/statue.jpg" alt="Statue" id = "statue" 
+				onClick="displayClick(4, 'statue')">
+			<img src="Datafiles/building_images/wesbrook.jpg" alt="Wesbrook" id = "westbrook"
+				onClick="displayClick(5, 'wesbrook')">
+			<img src="Datafiles/building_images/nicholson.jpg" alt="Nicholson" id = "nicholson"
+				onClick="displayClick(6, 'nicholson')">
+			<img src="Datafiles/building_images/eddy.jpg" alt="Eddy" id = "eddy"
+				onClick="displayClick(7, 'eddy')">
+			<img src="Datafiles/building_images/music.jpg" alt="Music" id = "music"
+				onClick="displayClick(8, 'music')">
+			<img src="Datafiles/building_images/wulling.jpg" alt="Wulling" id = "wulling"
+				onClick="displayClick(9, 'wulling')">
+		</div>
+		<br/>
+		<hr>
+		<input id = "startSlideShowButton" type = "button" value = "Start Slide Show" 
+			onClick = "startSlideShow()" >
+		<input id = "stopSlideShowButton" type = "button" value = "Stop Slide Show" 
+			onClick = "stopSlideShow()" >
+		<br/> <br/>
+		<label> 
+			Slow 
+			<input id = "slider" type = "range" min = "-10" max = "-1" step = "1" value = "-5"
+				onChange = "alterSpeed()"/>
+			Fast
+		</label>
+		<br/> <br/>
+		<p id = "bigImageAlign" ><img src = "Datafiles/building_images/armory.jpg" alt="display image" 
+			id = "bigImage" /> </p>
+		<p id = "imageInfo"> Image Information </p> 
+		<p id = "building"> </p> 
+		<p id = "information"> </p> 
+	</body>
+</html>
