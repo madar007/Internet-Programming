@@ -1,0 +1,25 @@
+#map {
+	height: 100%;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#form{
+	position: absolute;
+	left:10px;
+	top:10px;
+	z-index: 99;
+	background: white;
+	padding: 20px;
+	border:1px solid black;
+}
+.formClass{
+	line-height: 150%;
+}
+#submitWarning{
+	display: none;
+	color: red;
+	font-size: 12px;
+}

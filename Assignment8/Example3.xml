@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<courseCatalog 
+	xmlns="http://www.cs.umn.edu/4131/ns/catalog"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.cs.umn.edu/4131/ns/catalog Catalog.xsd">
+	
+	<course>
+		<title> Networks </title>
+		<instructor title="Prof"> 
+			<firstname> Tian </firstname> 
+			<lastname> He </lastname>
+		</instructor>
+		<number>CS4211</number> 
+		<schedule>
+			<lecture day="Th">18:30-21:00</lecture>
+		</schedule>
+		<semester>Fall</semester>
+		<enrollment>90</enrollment> 
+	</course>
+	
+	<course> 
+		<title> Computer Graphics </title>
+		<instructor title="Dr"> 
+			<firstname> Gary </firstname> 
+			<lastname> Meyer </lastname>
+		</instructor> 
+		<instructor>
+			<firstname> Carl </firstname>
+			<lastname> Sturtivant </lastname> 
+		</instructor>
+		<number>CS4611</number> 
+		<schedule>
+			<lecture day="Mon">14:30-15:45</lecture>
+			<lecture day="Wed">14:30-15:45</lecture>
+		</schedule>
+		<semester>Spring</semester>
+		<enrollment>30</enrollment> 
+	</course>
+</courseCatalog>

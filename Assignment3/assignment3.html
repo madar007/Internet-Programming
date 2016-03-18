@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<!-- Name: Sarin Madarasmi
+	ID: 4626422 -->
+
+<html>
+  	<head>
+    	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    	<meta charset="utf-8">
+    	<title>My Google Map</title>
+		<link rel="stylesheet" type="text/css" href="assignment3.css" />
+	</head>
+ 	<body>
+		<div id="floating-panel">
+		<b>Building: </b>
+		<select id="buildingStart">
+			<option selected="selected" value="0" >Armory</option>
+			<option value="1">Pillsbury Hall</option>
+			<option value="2">Folwell Hall</option>
+			<option value="3">Jones Hall</option>
+			<option value="4">Pillsbury Statue</option>
+			<option value="5">Wesbrook Hall</option>
+			<option value="6">Nicholson Hall</option>
+			<option value="7">Eddy Hall</option>
+			<option value="8">Music Education</option>
+			<option value="9">Wulling Hall</option>
+		</select>
+		</div>
+		<div id="mode-panel">
+		<b>Mode of Travel: </b>
+		<select id="modeOfTravel">
+			<option value="DRIVING">Driving</option>
+			<option value="WALKING">Walking</option>
+			<option value="BICYCLING">Bicycling</option>
+			<option value="TRANSIT">Transit</option>
+		</select>
+		</div>
+		<div id="map"></div>
+    	<script>
+		
+		// Initialize variables
+		var markers = [];
+		var description = [];
+		var pin;
+		var map;
+		description[ 0 ] = "Built for athletics and military drill, as well as performing arts and social activities. Memorial plaques at the front entrance honor students, faculty, and alumni who fought in the Spanish-American War.";
+		description[ 1 ] = "Built as Science Hall. Named for Governor John S. Pillsbury.";
+		description[ 2 ] = "When Old Main burned in 1904, Folwell Hall was built to house displaced departments. Named for William Watts Folwell, first president of the University, 1869-84.";
+		description[ 3 ] = "Built as Physics Building. Named for Frederick S. Jones, professor of physics and dean of the College of Engineering.";
+		description[ 4 ] = "Pillsbury statue located across the street from Burton Hall.";
+		description[ 5 ] = "Built as Laboratory of Medical Science. In 1912, dentistry moved here. Named for Frank Wesbrook, professor of pathology and bacteriology and dean of the College of Medicine and Surgery. ";
+		description[ 6 ] = "Built as chemical laboratory. In 1914, chemistry moved to the mall area and Nicholson was remodeled for the men's union until Coffman Memorial Union was built as a coed student union. Named for Edward E. Nicholson, professor of chemistry and later dean of Student Affairs.";
+		description[ 7 ] = "Built as Mechanic Arts. It is the oldest existing building on campus. Named for Henry Turner Eddy, professor of engineering and mathematics and dean of the Graduate School.";
+		description[ 8 ] = "Built as Student Christian Association building. Acquired by the University, it housed Child Welfare and Music Education.";
+		description[ 9 ] = "Built as Medical Hall; named Millard Hall in 1906. Fire damaged the building. It later became the site for the pharmacy building. Named for Frederick J. Wulling, first dean and founder of the College of Pharmacy.";
+
+		var buildings = [
+			['Armory', 44.977276, -93.232266, "Datafiles/building_images/armory.jpg", "Charles Aldrich", description[ 0 ]],
+			['Pillsbury Hall', 44.977018, -93.234444, "Datafiles/building_images/pillsbury.jpg", "Leroy Buffington with Harvey \ 					Ellis", description[ 1 ]],
+			['Folwell Hall', 44.978354, -93.234409, "Datafiles/building_images/folwell.jpg", "Clarence H. Johnston, Sr.", 					description[ 2 ]],
+			['Jones Hall', 44.977995, -93.235415, "Datafiles/building_images/jones.gif", "Charles Aldrich", description[ 3 ]],
+			['Pillsbury Statue', 44.978239, -93.236964, "Datafiles/building_images/statue.jpg", "Daniel C. French", description[ 4 ]],
+			['Wesbrook Hall', 44.976662, -93.23631, "Datafiles/building_images/wesbrook.jpg", "Frederick Corser", description[ 5 ]],
+			['Nicholson Hall', 44.977197, -93.235973, "Datafiles/building_images/nicholson.jpg", "Leroy Buffington with Harvey \ 					Ellis", description[ 6 ]],
+			['Eddy Hall', 44.977679, -93.236707, "Datafiles/building_images/eddy.jpg", "Leroy Buffington", description[ 7 ]],
+			['Music Education', 44.971201, -93.241777, "Datafiles/building_images/music.jpg", "Warren H. Hayes", description[ 8 ]],
+			['Wulling Hall', 44.976306, -93.237437, "Datafiles/building_images/wulling.jpg", "Allen Stem and Charles Reed", 
+					description[ 9 ]]
+		];
+		
+		//end of initializing global variables
+		
+		// initialize map
+		function initMap() {
+		    var directionsService = new google.maps.DirectionsService;
+		    var directionsDisplay = new google.maps.DirectionsRenderer;
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 15,
+				center: {lat: 44.977276, lng: -93.232266}
+			});
+			
+			directionsDisplay.setMap( map );
+			
+			map.addListener('click', function( event ){
+				if (pin){
+					pin.setMap(null);
+					pin = null;
+				}
+				placeMarker( event.latLng );
+				calculateAndDisplayRoute(directionsService, directionsDisplay, event.latLng);	
+			});
+			
+			var onChangeHandler = function() {
+				calculateAndDisplayRoute(directionsService, directionsDisplay, event.latLng);
+			};
+			document.getElementById('buildingStart').addEventListener('change', onChangeHandler);
+			document.getElementById('modeOfTravel').addEventListener('change', onChangeHandler);			  
+			setMarkers( map );
+			
+		}
+		
+		// create string to put in infowindow
+		function createContentString( currentIndex ){
+  			var contentString = '<div id="content" class="content">'+
+				'<h1 id="buildingNameHeader">' + buildings[ currentIndex ][ 0 ] + '</h1>'+
+				'<h2 id="architectContent">' + 'Architect: ' + buildings[ currentIndex ][ 4 ] + '</h2>' +
+				'<p id ="buildingDescription">' + buildings[ currentIndex ][ 5 ] + '</br></br>' + '<img src = ' + 
+				buildings[ currentIndex ][ 3 ] + ' alt=' + buildings[ currentIndex ][ 0 ] + 'id="buildingImageId"/></p>' + '</div>';
+			return contentString;
+		} 
+  		
+		// set markers
+		function setMarkers( map ) {
+			var infowindow = new google.maps.InfoWindow();
+			for (var i = 0; i < buildings.length; i++) {
+			    var building = buildings[i];
+			    markers[ i ] = new google.maps.Marker({
+					position: {lat: building[1], lng: building[2]},
+					map: map,
+					icon: 'icon.png',
+					title: building[0][0],
+					content: createContentString( i )
+			    });
+				google.maps.event.addListener(markers[i], 'click', function(){
+					infowindow.setContent( this.content )
+					infowindow.open( map, this );
+				});
+			}
+		}
+
+		// place marker from click on map
+		function placeMarker( latlng ) {
+			var infowindow = new google.maps.InfoWindow();
+		    pin = new google.maps.Marker({
+		        position: latlng,
+		        map: map,
+				title: 'location: ' + String(latlng),
+				content: 'Hello'
+			});
+			pin.addListener('click', function( event ){
+				infowindow.setContent( this.content )
+				infowindow.open( map, this );
+			})
+		}
+		
+		// calculate route
+		function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+			var origin = document.getElementById('buildingStart').value;
+			var selected = document.getElementById('modeOfTravel').value;
+			var building = buildings[ origin ];
+			if( pin != null ){
+				directionsService.route({
+					origin: {lat: building[1], lng: building[2]},
+					destination: pin.position,
+					travelMode: google.maps.TravelMode[ selected ]
+				}, function( response, status ){
+					if (status == google.maps.DirectionsStatus.OK){
+						directionsDisplay.setDirections( response );
+					}
+					else{
+						window.alert('Directions request failed due to ' + status );
+					}
+				});
+			}
+		}
+
+		</script>
+    	<script async defer 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5m4sS-Dp9tk03Yni6kBixsNWQMK5bPVs&signed_in=true&callback=initMap">
+		</script>
+	</body>
+</html>

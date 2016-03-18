@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<courseCatalog 
+	xmlns="http://www.cs.umn.edu/4131/ns/catalog"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.cs.umn.edu/4131/ns/catalog Catalog.xsd">
+	
+	<course>
+		<title> Operating Systems </title>
+		<instructor title="Prof"> 
+			<firstname> Tian </firstname> 
+			<lastname> He </lastname>
+		</instructor> 
+		<instructor>
+			<firstname> Anand </firstname>
+			<lastname> Tripathi </lastname> 
+		</instructor>
+		<number>CS4061</number> 
+		<schedule>
+			<lecture day="Tue">04:00-05:15</lecture>
+			<lecture day="Th">04:00-05:30</lecture>
+		</schedule>
+		<semester>Fall</semester>
+		<enrollment>100</enrollment> 
+	</course>
+	
+</courseCatalog>

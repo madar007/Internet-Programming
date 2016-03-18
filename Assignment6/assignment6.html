@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<!-- Name: Sarin Madarasmi
+	ID: 4626422 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simple Map</title>
+		<meta name="viewport" content="initial-scale=1.0">
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="assignment6.css" />
+	</head>
+	<body>
+		<div id = "form">
+		<form class="formClass" onsubmit="return isValidForm()" method="post" action="assignment6.html">
+			<input type="checkbox" name="category" value="4d4b7104d754a06370d81259">Arts & Entertainment<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06374d81259">Food<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06376d81259">Nightlife Spot<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06377d81259">Outdoors & Recreation<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06378d81259">Shop & Service<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06379d81259">Travel & Transport<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06372d81259">College & Universities<br>
+			<input type="checkbox" name="category" value="4d4b7105d754a06375d81259">Professional and Other Places<br>
+			<input type="checkbox" name="category" value="4e67e38e036454776db1fb3a">Residence<br>
+			<label>
+				Limit (K):<br/>
+				<input type="range" id="limit" name="limit" min="0" max="50" value="25" onchange="changeRange()"> <br>
+				<input type="text" id="count" name="count" value="25" readonly><br/>
+			</label>
+			<label>
+				Radius (M):<br/>
+				<input type="range" id="radius" name="radius" min="0" max="3000" value="1500" step="100" onchange="changeRadius()"><br/>
+				<input type="text" id="distance" name="distance" value="1500" readonly><br/>
+			</label>
+			<div id="submitWarning">
+				Query Marker and Choose Category To Submit
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+		<div id="map"></div>
+		<script>
+
+		var map;
+		var pin;
+		function initMap() {
+			$.get( "https://api.foursquare.com/v2/venues/search?ll=40.7,-74&oauth_token=PWIY30EBF1QBHMO2JZYBHXBXG25HMOVBYC5C4YZLOHAGDUPL&v=20151111");
+			document.getElementById('submitWarning').style.display = 'none';
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: 44.977276, lng: -93.232266},
+				zoom: 15
+			});
+			map.addListener('click', function( event ){
+				if (pin){
+					pin.setMap(null);
+					pin = null;
+				}
+				placeMarker( event.latLng );	
+			});
+		}
+		// place marker from click on map
+		function placeMarker( latlng ) {
+			var infowindow = new google.maps.InfoWindow();
+		    pin = new google.maps.Marker({
+		        position: latlng,
+		        map: map,
+				title: 'location: ' + String(latlng),
+				content: 'Hello'
+			});
+			pin.addListener('click', function( event ){
+				infowindow.setContent( this.content )
+				infowindow.open( map, this );
+			})
+		}
+		function changeRange(){
+			var range = document.getElementById('limit').value;
+			document.getElementById('count').value = range;
+		}
+		function changeRadius(){
+			var radius = document.getElementById('radius').value;
+			document.getElementById('distance').value = radius;
+		}
+		function isValidForm(){
+			if( pin == null){
+				document.getElementById('submitWarning').style.display = "block";
+				return false;
+			}
+			else{
+				document.getElementById('submitWarning').style.display = "none";
+				return true;
+			}
+		}
+		</script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5m4sS-Dp9tk03Yni6kBixsNWQMK5bPVs&callback=initMap"
+        	async defer></script>
+	</body>
+</html>

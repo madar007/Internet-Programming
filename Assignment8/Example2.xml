@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<courseCatalog 
+	xmlns="http://www.cs.umn.edu/4131/ns/catalog"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.cs.umn.edu/4131/ns/catalog Catalog.xsd">
+	
+	<course>
+		<title> Operating Systems </title>
+		<instructor title="Prof"> 
+			<firstname> Tian </firstname> 
+			<lastname> He </lastname>
+		</instructor> 
+		<instructor>
+			<firstname> Anand </firstname>
+			<lastname> Tripathi </lastname> 
+		</instructor>
+		<number>CS4061</number> 
+		<schedule>
+			<lecture day="Tue">04:00-05:15</lecture>
+			<lecture day="Th">04:00-05:30</lecture>
+		</schedule>
+		<semester>Fall</semester>
+		<enrollment>100</enrollment> 
+	</course>
+	
+	<course> 
+		<title> Data Mining </title>
+		<instructor title="Dr"> 
+			<firstname> George </firstname> 
+			<lastname> Karypis </lastname>
+		</instructor> 
+		<instructor>
+			<firstname> Vipin </firstname>
+			<lastname> Kumar </lastname> 
+		</instructor>
+		<number>CS5523</number> 
+		<schedule>
+			<lecture day="Mon">09:45-11:00</lecture>
+			<lecture day="Wed">09:45-11:00</lecture>
+		</schedule>
+		<semester>Spring</semester>
+		<enrollment>75</enrollment> 
+	</course>
+	
+	<course> 
+		<title> Database Systems </title>
+		<instructor title="Prof"> 
+			<firstname> Mohammad </firstname> 
+			<lastname> Mokbel </lastname>
+		</instructor> 
+		<instructor>
+			<firstname> Chris </firstname>
+			<lastname> Dovolis </lastname> 
+		</instructor>
+		<number>CS4707</number> 
+		<schedule>
+			<lecture day="Fri">09:00-01:00</lecture>
+		</schedule>
+		<semester>Summer</semester>
+		<enrollment>20</enrollment> 
+	</course>
+	
+</courseCatalog>
